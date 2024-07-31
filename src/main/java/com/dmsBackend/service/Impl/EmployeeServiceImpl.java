@@ -62,4 +62,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         return employeeRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("employee not found","Id",id));
     }
 
+    @Override
+    public void updateEmployeeStatus(Integer id, Integer isActive) {
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("employee", "id", id));
+
+        employee.setUpdatedOn(Helper.getCurrentTimeStamp());
+        employee.setIsActive(isActive);
+         employeeRepository.save(employee);
+    }
 }

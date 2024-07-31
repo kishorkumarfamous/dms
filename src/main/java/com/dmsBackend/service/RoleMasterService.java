@@ -12,4 +12,5 @@ public interface RoleMasterService {
     void deleteByIdRoleMaster(Integer id);
     List<RoleMaster> findAllRoleMaster();
     Optional<RoleMaster> findRoleMasterById(Integer id);
+    RoleMaster updateStatus(Integer id, Integer isActive);
 }

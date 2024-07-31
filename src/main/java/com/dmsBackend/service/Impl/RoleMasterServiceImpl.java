@@ -55,4 +55,15 @@ public class RoleMasterServiceImpl implements RoleMasterService {
     public Optional<RoleMaster> findRoleMasterById(Integer id) {
        return this.roleMasterRepository.findById(id);
     }
+
+    @Override
+    public RoleMaster updateStatus(Integer id, Integer isActive) {
+        RoleMaster roleMaster = roleMasterRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Role", "id", id));
+
+        roleMaster.setUpdatedOn(Helper.getCurrentTimeStamp());
+        roleMaster.setIsActive(isActive);
+        return roleMasterRepository.save(roleMaster);
+    }
+
 }

@@ -1,7 +1,6 @@
 package com.dmsBackend.service;
 
 import com.dmsBackend.entity.Employee;
-import com.dmsBackend.entity.RoleMaster;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,4 +15,5 @@ public interface EmployeeService {
     List<Employee> findAllEmployee();
     Optional<Employee> findEmployeeById(Integer id);
     Employee findByIdEmp(Integer id);
+    void updateEmployeeStatus(Integer id, Integer isActive);
 }

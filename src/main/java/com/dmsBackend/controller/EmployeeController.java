@@ -40,4 +40,11 @@ public class EmployeeController {
         return employee1.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
+    @PutMapping("/updateStatusEmp")
+    public ResponseEntity updateEmployeeStatus(Integer id, Integer isActive) {
+        this.employeeService.updateEmployeeStatus(id,isActive);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
 }

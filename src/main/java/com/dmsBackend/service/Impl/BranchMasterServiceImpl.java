@@ -32,10 +32,7 @@ public class BranchMasterServiceImpl implements BranchMasterService {
             BranchMaster branchMaster1 = branchMasterOptional.get();
             branchMaster1.setName(branchMaster.getName());
             branchMaster1.setAddress(branchMaster.getAddress());
-            branchMaster1.setCreatedOn(branchMaster.getCreatedOn());
-            branchMaster1.setUpdatedOn(branchMaster.getUpdatedOn());
             branchMaster1.setUpdatedOn(Helper.getCurrentTimeStamp());
-            branchMaster1.setCreatedOn(Helper.getCurrentTimeStamp());
 
             return branchMasterRepository.save(branchMaster1);
         }else {

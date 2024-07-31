@@ -18,5 +18,9 @@ public interface DocumentHeaderService {
     List<DocumentHeader> findAllDocumentHeader();
     Optional<DocumentHeader> findDocumentHeaderById(Integer id);
 
+    Optional<DocumentHeader> getApprovedDocumentById(Integer id);
+
+//    DocumentHeader getApprovedDocumentById(Integer docId);
+
 
 }

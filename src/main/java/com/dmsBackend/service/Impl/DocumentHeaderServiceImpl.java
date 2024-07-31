@@ -61,6 +61,18 @@ public class DocumentHeaderServiceImpl implements DocumentHeaderService {
     }
 
     @Override
+    public Optional<DocumentHeader> getApprovedDocumentById(Integer id) {
+        return documentHeaderRepository.findByIdAndStatus(id,true);
+    }
+
+//    @Override
+//    public DocumentHeader getApprovedDocumentById(Integer docId) {
+//        DocumentHeader appovedDocumentById = documentHeaderRepository.findAppovedDocumentById(docId, 1);
+//        return appovedDocumentById;
+//    }
+
+
+    @Override
     public List<DocumentHeader> getAllPendingStatus() {
         List<DocumentHeader> byIsApprovedFalse = documentHeaderRepository.findByIsApprovedFalse();
         return byIsApprovedFalse;
@@ -77,6 +89,7 @@ public class DocumentHeaderServiceImpl implements DocumentHeaderService {
                 .orElseThrow(() -> new ResourceNotFoundException("DocumentHeader", "id", id));
 
         documentHeader.setApproved(isApproved);
+        documentHeader.setUpdatedOn(Helper.getCurrentTimeStamp());
         return documentHeaderRepository.save(documentHeader);
     }
 }

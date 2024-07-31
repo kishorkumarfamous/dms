@@ -14,4 +14,5 @@ public interface DepartmentMasterService {
     Optional<DepartmentMaster> findDepartmentMasterById(Integer id);
 
     DepartmentMaster findByIdDep(Integer id);
+    DepartmentMaster updateStatusDepartment(Integer id, Integer isApproved);
 }

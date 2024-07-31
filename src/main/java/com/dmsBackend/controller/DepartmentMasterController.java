@@ -54,4 +54,10 @@ public class DepartmentMasterController {
         return departmentMasterMaster.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
+    @PutMapping("/updateDeptStatus/{id}")
+    public ResponseEntity<DepartmentMaster> updateStatusDepartment(@PathVariable Integer id,Integer isActive) {
+        DepartmentMaster departmentMaster = this.departmentMasterService.updateStatusDepartment(id, isActive);
+        return new ResponseEntity(departmentMaster, HttpStatus.OK);
+    }
 }

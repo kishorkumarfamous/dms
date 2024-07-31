@@ -56,6 +56,12 @@ public class DocumentHeaderController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    @GetMapping("/doc/{id}")
+    public ResponseEntity<DocumentHeader> getApprovedDocStatusById(@PathVariable Integer id) {
+        Optional<DocumentHeader> approvedDocumentById = documentHeaderService.getApprovedDocumentById(id);
+        return approvedDocumentById.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
 
 
 
