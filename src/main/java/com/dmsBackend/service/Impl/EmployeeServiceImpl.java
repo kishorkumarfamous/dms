@@ -5,9 +5,12 @@ import com.dmsBackend.exception.ResourceNotFoundException;
 import com.dmsBackend.payloads.Helper;
 import com.dmsBackend.repository.BranchMasterRepository;
 import com.dmsBackend.repository.DepartmentMasterRepository;
+import com.dmsBackend.repository.EmployeeHasRoleMasterRepository;
 import com.dmsBackend.repository.EmployeeRepository;
 import com.dmsBackend.service.EmployeeService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,24 +18,59 @@ import java.util.Optional;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
     @Autowired
-     private EmployeeRepository employeeRepository;
+    private BranchMasterRepository branchMasterRepository;
 
     @Autowired
-    BranchMasterRepository branchMasterRepository;
+    private DepartmentMasterRepository departmentMasterRepository;
+
     @Autowired
-    DepartmentMasterRepository departmentMasterRepository;
+    private EmployeeHasRoleMasterRepository employeeHasRoleRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private EmployeeIdGenerator employeeIdGenerator;
 
     @Override
+    @Transactional
     public Employee save(Employee employee) {
+        // Set timestamps
         employee.setCreatedOn(Helper.getCurrentTimeStamp());
         employee.setUpdatedOn(Helper.getCurrentTimeStamp());
-        BranchMaster branchMaster = branchMasterRepository.findById(employee.getBranch().getId()).orElseThrow(() -> new RuntimeException("Branch Not Found"));
-        employee.setBranch(branchMaster);
-        DepartmentMaster department = departmentMasterRepository.findById(employee.getDepartment().getId()).orElseThrow(() -> new RuntimeException("Department Not Found"));
-        employee.setDepartment(department);
-        return employeeRepository.save(employee);
+        //employee.setEmployeeId(employeeIdGenerator.generateEmployeeId());
+
+//        // Find and set branch
+//        BranchMaster branchMaster = branchMasterRepository.findById(employee.getBranch().getId())
+//                .orElseThrow(() -> new RuntimeException("Branch Not Found"));
+//        employee.setBranch(branchMaster);
+//
+//        // Find and set department
+//        DepartmentMaster department = departmentMasterRepository.findById(employee.getDepartment().getId())
+//                .orElseThrow(() -> new RuntimeException("Department Not Found"));
+//        employee.setDepartment(department);
+
+        // Encode the password before saving
+        employee.setPassword(passwordEncoder.encode(employee.getPassword()));
+
+        // Save the employee
+        Employee savedEmployee = employeeRepository.save(employee);
+
+        // Save the role relationships
+//        for (RoleMaster role : employee.getRoles()) {
+//            EmployeeHasRoleMaster employeeHasRole = new EmployeeHasRoleMaster();
+//            employeeHasRole.setEmployee(savedEmployee);
+//            employeeHasRole.setRole(role);
+//            employeeHasRole.setBranch(branchMaster);
+//            employeeHasRole.setDepartment(department);
+//            employeeHasRoleRepository.save(employeeHasRole);
+//        }
+
+        return savedEmployee;
     }
 
     @Override

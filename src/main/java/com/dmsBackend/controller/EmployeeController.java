@@ -2,9 +2,13 @@ package com.dmsBackend.controller;
 
 import com.dmsBackend.entity.DocumentHeader;
 import com.dmsBackend.entity.Employee;
+import com.dmsBackend.entity.EmployeeHasRoleMaster;
+import com.dmsBackend.entity.RoleMaster;
 import com.dmsBackend.exception.ResourceNotFoundException;
 import com.dmsBackend.payloads.ApiResponse;
+import com.dmsBackend.service.EmployeeHasRoleService;
 import com.dmsBackend.service.EmployeeService;
+import com.dmsBackend.service.RoleMasterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +22,35 @@ import java.util.Optional;
 public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
+    @Autowired
+    private RoleMasterService roleService;
+
+    @Autowired
+    private EmployeeHasRoleService employeeHasRoleService;
+
+    @PostMapping("/saved")
+    public ResponseEntity<?> registerUser(@RequestBody Employee employee) {
+        try {
+            // Save employee
+            Employee savedEmployee = employeeService.save(employee);
+
+            // Save roles and associate with employee
+            for (RoleMaster role : employee.getRoles()) {
+                RoleMaster savedRole = roleService.saveRoleMaster(role);
+
+                // Save EmployeeHasRole
+                EmployeeHasRoleMaster employeeHasRole = new EmployeeHasRoleMaster();
+                employeeHasRole.setEmployee(savedEmployee);
+                employeeHasRole.setRole(savedRole);
+                employeeHasRoleService.saved(employeeHasRole);
+            }
+
+            return ResponseEntity.ok(savedEmployee);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error saving employee");
+        }
+    }
+
 
 
 
@@ -46,5 +79,7 @@ public class EmployeeController {
         this.employeeService.updateEmployeeStatus(id,isActive);
         return new ResponseEntity(HttpStatus.OK);
     }
+
+
 
 }

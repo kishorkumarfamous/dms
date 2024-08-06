@@ -2,14 +2,11 @@ package com.dmsBackend.service.Impl;
 
 import com.dmsBackend.entity.BranchMaster;
 import com.dmsBackend.entity.DepartmentMaster;
-import com.dmsBackend.entity.DocumentHeader;
-import com.dmsBackend.entity.Employee;
 import com.dmsBackend.exception.ResourceNotFoundException;
 import com.dmsBackend.payloads.Helper;
 import com.dmsBackend.repository.BranchMasterRepository;
 import com.dmsBackend.repository.DepartmentMasterRepository;
 import com.dmsBackend.service.DepartmentMasterService;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

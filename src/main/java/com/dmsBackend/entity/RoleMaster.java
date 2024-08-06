@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.sql.Timestamp;
+import java.util.Set;
 
 @Entity
 @Data
@@ -23,4 +24,7 @@ public class RoleMaster {
     private Timestamp createdOn;
     @Column(name = "updatedOn")
     private Timestamp updatedOn;
+
+    @ManyToMany(mappedBy = "roles")
+    private Set<Employee> employees;
 }

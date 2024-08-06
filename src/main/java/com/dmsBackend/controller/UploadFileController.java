@@ -25,6 +25,7 @@ public class UploadFileController {
 
     @PostMapping("/File")
     public ResponseEntity<String> uploadFile(@RequestParam("image") MultipartFile image)throws IOException {
+
         String fileName = this.uploadFileService.uploadImage(path, image);
         return new ResponseEntity<>(fileName, HttpStatus.OK);
     }

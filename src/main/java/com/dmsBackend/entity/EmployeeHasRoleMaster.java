@@ -12,20 +12,20 @@ public class EmployeeHasRoleMaster {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "employee_id")
+    @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
 
     @ManyToOne
-    @JoinColumn(name = "department_master_id")
+    @JoinColumn(name = "Employee_department_master_Id", nullable = false)
     private DepartmentMaster department;
 
     @ManyToOne
-    @JoinColumn(name = "branch_master_id")
+    @JoinColumn(name = "Employee_department_master_branch_Master_Id", nullable = false)
     private BranchMaster branch;
 
-    @ManyToOne
-    @JoinColumn(name = "role_master_id")
-    private RoleMaster role;
 
+    @ManyToOne
+    @JoinColumn(name = "role_master_id", nullable = false)
+    private RoleMaster role;
 
 }
